@@ -1,0 +1,58 @@
+---
+spring:
+  profiles: node_01
+  application:
+    name: eureka_server
+
+server:
+  port: 8701
+
+eureka:
+  instance:
+    hostname: node01
+  client:
+    #  eureka-server本身也会被做为服务进行注册
+#    register-with-eureka: true
+    fetch-registry: false
+    #  注册中心地址(注册至节点02,03)
+    serviceUrl:
+      defaultZone: http://node01:8701/eureka/
+#      defaultZone: http://node02:8702/eureka/,http://node03:8703/eureka/
+
+---
+spring:
+  profiles: node_02
+  application:
+    name: eureka_server
+
+server:
+  port: 8702
+
+eureka:
+  instance:
+    hostname: node02
+  client:
+    #  eureka-server本身也会被做为服务进行注册
+    #  register-with-eureka: false
+    #  注册中心地址(注册至节点01)
+    serviceUrl:
+      defaultZone: http://node01:8701/eureka/,http://node03:8703/eureka/
+
+---
+spring:
+  profiles: node_03
+  application:
+    name: eureka_server
+
+server:
+  port: 8703
+
+eureka:
+  instance:
+    hostname: node03
+  client:
+      #  eureka-server本身也会被做为服务进行注册
+      #  register-with-eureka: false
+      #  注册中心地址(注册至节点01)
+    serviceUrl:
+       defaultZone: http://node01:8701/eureka/,http://node02:8702/eureka/
